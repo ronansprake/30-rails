@@ -1,28 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-        <meta charset="utf-8">
-        <title>30 Rails calculator</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1"/>
-        <link rel="icon" href="<?php echo get_template_directory_uri(); ?>/favicon.ico">
-        <style>
-          .rail-types li {
-            overflow: hidden;
-            text-indent: -99em;
-          }
-        </style>
-        <script type="text/javascript">
-          
-        </script>
-    </head>
+    <meta charset="utf-8">
+    <title>30 Rails calculator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="icon" href="<?php echo get_template_directory_uri(); ?>/favicon.ico">
+    <style>
+      .rail-types li {
+        overflow: hidden;
+        text-indent: -99em;
+      }
+    </style>
+    <script type="text/javascript">
 
-    <body <?php body_class(); ?>>
-<h1>Hello world</h1>
-<ol class="rail-types">
-  <li>Dice value 1</li>
-  <li>Dice value 2</li>
-  <li>Dice value 3</li>
-  <li>Dice value 4</li>
-  <li>Dice value 5</li>
-  <li>Dice value 6</li>
-</ol>
+    </script>
+  </head>
+
+  <body>
+    <h1>Hello world</h1>
+    <div class="rail-types">
+      <div class="rail-type-1"></div>
+      <div class="rail-type-2"></div>
+      <div class="rail-type-3"></div>
+      <div class="rail-type-4"></div>
+      <div class="rail-type-5"></div>
+      <div class="rail-type-6"></div>
+    </div>
+
+    <ol>
+      <li class="rail-line">
+        <div class="rail-label">1 - 2 (1)</div>
+        <div class="rail-count js-rail-count-1">
+          <div class="rail-count-value js-rail-count-value-1">0</div>
+          <button class="rail-count-decrement" data-rail="1">-</button>
+          <button class="rail-count-increment" data-rail="1">+</button>
+        </div>
+        <button class="rail-count-bonus" data-rail="1">+2</button>
+        <div class="rail-score js-rail-score-1">0</div>
+      </li>
+      <li class="rail-line">
+        <div class="rail-label">1 - 2 (1)</div>
+        <div class="rail-count js-rail-count-1">
+          <div class="rail-count-value js-rail-count-value-1">0</div>
+          <button class="rail-count-decrement" data-rail="1">-</button>
+          <button class="rail-count-increment" data-rail="1">+</button>
+        </div>
+        <button class="rail-count-bonus" data-rail="1">+2</button>
+        <div class="rail-score js-rail-score-1">0</div>
+      </li>
+      <li class="rail-line">
+        <div class="rail-label">1 - 2 (1)</div>
+        <div class="rail-count js-rail-count-1">
+          <div class="rail-count-value js-rail-count-value-1">0</div>
+          <button class="rail-count-decrement" data-rail="1">-</button>
+          <button class="rail-count-increment" data-rail="1">+</button>
+        </div>
+        <button class="rail-count-bonus" data-rail="1">+2</button>
+        <div class="rail-score js-rail-score-1">0</div>
+      </li>
+      <li class="rail-line">
+        <div class="rail-label">1 - 2 (1)</div>
+        <div class="rail-count js-rail-count-1">
+          <div class="rail-count-value js-rail-count-value-1">0</div>
+          <button class="rail-count-decrement" data-rail="1">-</button>
+          <button class="rail-count-increment" data-rail="1">+</button>
+        </div>
+        <button class="rail-count-bonus" data-rail="1">+2</button>
+        <div class="rail-score js-rail-score-1">0</div>
+      </li>
+      <li class="rail-line">
+        <div class="rail-label">1 - 2 (1)</div>
+        <div class="rail-count js-rail-count-1">
+          <div class="rail-count-value js-rail-count-value-1">0</div>
+          <button class="rail-count-decrement" data-rail="1">-</button>
+          <button class="rail-count-increment" data-rail="1">+</button>
+        </div>
+        <button class="rail-count-bonus" data-rail="1">+2</button>
+        <div class="rail-score js-rail-score-1">0</div>
+      </li>
+      <li class="rail-line">
+        <div class="rail-label">1 - 2 (1)</div>
+        <div class="rail-count js-rail-count-1">
+          <div class="rail-count-value js-rail-count-value-1">0</div>
+          <button class="rail-count-decrement" data-rail="1">-</button>
+          <button class="rail-count-increment" data-rail="1">+</button>
+        </div>
+        <button class="rail-count-bonus" data-rail="1">+2</button>
+        <div class="rail-score js-rail-score-1">0</div>
+      </li>
+    </ol>
+    <div class="mine">
+      <div class="mine-label">Mine (2/6/12/20)</div>
+      <div class="mine-count js-mine-count">
+        <div class="mine-count-value js-mine-count-value">0</div>
+        <button class="mine-count-decrement">-</button>
+        <button class="mine-count-increment">+</button>
+      </div>
+      <div class="mine-score js-mine-score">0</div>
+    </div>
+    <div class="total-score js-total-score">0</div>
+    <div class="overrides">
+      <button class="override-1 js-override-1">Override 1</button>
+      <button class="override-2 js-override-2">Override 2</button>
+    </div>
+  </body>
+</html>
