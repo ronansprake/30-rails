@@ -1,296 +1,293 @@
-
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>30 Rails calculator</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <link rel="shortcut icon" href="/images/favicon.ico">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&display=swap" rel="stylesheet">
-    <style>
-      * { font-family: 'Open Sans', sans-serif; font-weight: 600; color: #444B53; box-sizing: border-box; }
-      body { background-color: #F6F6F6; margin: 0; padding: 40px 0; position: relative; }
-      .wrap { max-width: 400px; padding: 0 20px; margin: 0 auto; }
-      .row-label { font-size: 20px; }
-      .counter-text, .row-score, .total-score { font-size: 32px; }
-      h1 { text-indent: -99em; position: absolute; width: 0; height: 0; }
-      .rail-lines { list-style: none; margin: 0; padding: 0; }
-      button { background: none; width: 40px; height: 40px; font-size: 24px; border: none; cursor: pointer; line-height: 38px; }
-      .rail-bonus { font-size: 18px; line-height: 38px; border: 1px solid #444B53; }
-      .rail-bonus.on { background: #444B53; color: #FFF ;font-size: 20px; border: 1px solid #444B53; }
-      .rail-types { display: flex; flex-direction: row; align-items: flex-start; justify-content: space-between; margin-bottom: 50px; }
-      .rail-types div { width: 50px; height: 50px; background: #FFF; border: 1px solid #7E878F; position: relative; overflow: hidden; }
-      .rail-types div:nth-child(1) i, .rail-types div:nth-child(3) i, .rail-types div:nth-child(5) i, .rail-types div:nth-child(6) i { display: block; position: absolute; width: 50px; height: 50px; left: 50%; top: 50%; margin: -1.5px 0 0 -1.5px; border: 3px solid #000; border-radius: 100%; }
-      .rail-types div:nth-child(2) i { display: block; position: absolute; width: 50px; height: 60px; left: 50%; top: -5px; margin-left: -1.5px; border: 3px solid #000; }
-      .rail-types div:nth-child(3) i:after { content: ''; display: block; position: absolute; width: 50px; height: 50px; left: -50px; top: -50px; border: 3px solid #000; border-radius: 100%; box-sizing: border-box; }
-      .rail-types div:nth-child(4) i { display: block; position: absolute; width: 60px; height: 60px; left: 50%; margin-left: -1.5px; top: -5px; border: 3px solid #000; }
-      .rail-types div:nth-child(4) i:after { content: ''; display: block; position: absolute; width: 60px; height: 60px; left: -33px; top: 24.5px; border: 3px solid #000; box-sizing: border-box; }
-      .rail-types div:nth-child(5) i:after { content: ''; display: block; position: absolute; width: 50px; height: 50px; left: -50px; top: -3px; border: 3px solid #000; border-radius: 100%; box-sizing: border-box; }
-      .rail-types div:nth-child(6) i:after { content: ''; display: block; position: absolute; width: 80px; height: 80px; left: -3px; top: -40px; border: 3px solid #000; box-sizing: border-box; }
-      .row { display: flex; flex-direction: row; align-items: center; justify-content: space-between; margin-bottom: 20px; }
-      .row.end { margin: 30px 0 0; }
-      .counter { display: flex; flex-direction: row; align-items: center; justify-content: space-between; }
-      .counter-text { width: 120px; height: 60px; position: relative; line-height: 60px; text-align: center; }
-      .counter-text button { position: absolute; top: 5px; left: 0; width: 50px; height: 50px; }
-      .counter-text button:last-child { right: 0; left: auto; }
-	  input[type="number"] { width: 40px; height: 40px; line-height: 38px; padding: 0; border: 1px solid #333; text-align: center; -moz-appearance: textfield; font-size: 18px; }
-	  input[type="number"]::-webkit-outer-spin-button,input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-      .row-score { width: 50px; height: 60px; line-height: 60px; text-align: right; }
-      .overrides { display: flex; align-items: center; gap: 20px; }
-      .overrides button { position: relative; text-indent: -99em; overflow: hidden; width: 40px; height: 40px; border: 1px solid #444B53; padding: 0; margin: 0;}
-      .overrides button.on:after { content: ''; display: block; width: 50px; height: 50px; border: 3px solid #444B53; transform: rotate(45deg); position: absolute; top: 9.5px; left: 10px; }
-      .overrides button:nth-of-type(1) { background: #444B53; margin-left: 10px; }
-      .overrides button:nth-of-type(1).on:after { border-color: #F6F6F6; }
-      .total-score { cursor: pointer; }
-    </style>
-  </head>
+	<head>
+		<meta charset="utf-8">
+		<title>30 Rails calculator</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+		<link rel="shortcut icon" href="/images/favicon.ico">
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&display=swap" rel="stylesheet">
+		<style>
+			* { font-family: 'Open Sans', sans-serif; font-weight: 600; color: #444B53; box-sizing: border-box; }
+			body { background-color: #F6F6F6; margin: 0; padding: 40px 0; position: relative; }
+			.wrap { max-width: 400px; padding: 0 20px; margin: 0 auto; }
+			.row-label { font-size: 20px; }
+			.counter-text, .row-score, .total-score { font-size: 32px; }
+			h1 { text-indent: -99em; position: absolute; width: 0; height: 0; }
+			.rail-lines { list-style: none; margin: 0; padding: 0; }
+			button { background: none; width: 40px; height: 40px; font-size: 24px; border: none; cursor: pointer; line-height: 38px; }
+			.rail-bonus { font-size: 18px; line-height: 38px; border: 1px solid #444B53; }
+			.rail-bonus.on { background: #444B53; color: #FFF ;font-size: 20px; border: 1px solid #444B53; }
+			.rail-types { display: flex; flex-direction: row; align-items: flex-start; justify-content: space-between; margin-bottom: 50px; }
+			.rail-types div { width: 50px; height: 50px; background: #FFF; border: 1px solid #7E878F; position: relative; overflow: hidden; }
+			.rail-types div:nth-child(1) i, .rail-types div:nth-child(3) i, .rail-types div:nth-child(5) i, .rail-types div:nth-child(6) i { display: block; position: absolute; width: 50px; height: 50px; left: 50%; top: 50%; margin: -1.5px 0 0 -1.5px; border: 3px solid #000; border-radius: 100%; }
+			.rail-types div:nth-child(2) i { display: block; position: absolute; width: 50px; height: 60px; left: 50%; top: -5px; margin-left: -1.5px; border: 3px solid #000; }
+			.rail-types div:nth-child(3) i:after { content: ''; display: block; position: absolute; width: 50px; height: 50px; left: -50px; top: -50px; border: 3px solid #000; border-radius: 100%; box-sizing: border-box; }
+			.rail-types div:nth-child(4) i { display: block; position: absolute; width: 60px; height: 60px; left: 50%; margin-left: -1.5px; top: -5px; border: 3px solid #000; }
+			.rail-types div:nth-child(4) i:after { content: ''; display: block; position: absolute; width: 60px; height: 60px; left: -33px; top: 24.5px; border: 3px solid #000; box-sizing: border-box; }
+			.rail-types div:nth-child(5) i:after { content: ''; display: block; position: absolute; width: 50px; height: 50px; left: -50px; top: -3px; border: 3px solid #000; border-radius: 100%; box-sizing: border-box; }
+			.rail-types div:nth-child(6) i:after { content: ''; display: block; position: absolute; width: 80px; height: 80px; left: -3px; top: -40px; border: 3px solid #000; box-sizing: border-box; }
+			.row { display: flex; flex-direction: row; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+			.row.end { margin: 30px 0 0; }
+			.counter { display: flex; flex-direction: row; align-items: center; justify-content: space-between; }
+			.counter-text { width: 120px; height: 60px; position: relative; line-height: 60px; text-align: center; }
+			.counter-text button { position: absolute; top: 5px; left: 0; width: 50px; height: 50px; }
+			.counter-text button:last-child { right: 0; left: auto; }
+				input[type="number"] { width: 40px; height: 40px; line-height: 38px; padding: 0; border: 1px solid #333; text-align: center; -moz-appearance: textfield; font-size: 18px; }
+				input[type="number"]::-webkit-outer-spin-button,input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+			.row-score { width: 50px; height: 60px; line-height: 60px; text-align: right; }
+			.overrides { display: flex; align-items: center; gap: 20px; }
+			.overrides button { position: relative; text-indent: -99em; overflow: hidden; width: 40px; height: 40px; border: 1px solid #444B53; padding: 0; margin: 0;}
+			.overrides button.on:after { content: ''; display: block; width: 50px; height: 50px; border: 3px solid #444B53; transform: rotate(45deg); position: absolute; top: 9.5px; left: 10px; }
+			.overrides button:nth-of-type(1) { background: #444B53; margin-left: 10px; }
+			.overrides button:nth-of-type(1).on:after { border-color: #F6F6F6; }
+			.total-score { cursor: pointer; }
+		</style>
+	</head>
+	<body>
+		<div class="wrap">
+			<h1>30 Rails roll and write score calculator</h1>
+			<div class="rail-types">
+				<div><i></i></div>
+				<div><i></i></div>
+				<div><i></i></div>
+				<div><i></i></div>
+				<div><i></i></div>
+				<div><i></i></div>
+			</div>
+			<ol class="rail-lines">
+				<li class="row">
+					<label for="rail-1" class="row-label">1 - 2 (1)</label>
+					<div class="counter">
+						<button class="js-rail-decrement" data-rail="1" tabindex="-1">&ndash;</button>
+						<input id="rail-1" type="number" min="0" class="js-rail-count" data-row="1" value="0" />
+						<button class="js-rail-increment" data-rail="1" tabindex="-1">+</button>
+					</div>
+					<button class="rail-bonus js-rail-bonus" data-bonus="0">+2</button>
+					<div class="row-score js-rail-score">0</div>
+				</li>
+				<li class="row">
+					<label class="row-label">1 - 3 (2)</label>
+					<div class="counter">
+						<button class="js-rail-decrement" data-rail="2" tabindex="-1">&ndash;</button>
+						<input id="rail-2" type="number" min="0" class="js-rail-count" data-row="2" value="0" />
+						<button class="js-rail-increment" data-rail="2" tabindex="-1">+</button>
+					</div>
+					<button class="rail-bonus js-rail-bonus" data-bonus="0">+2</button>
+					<div class="row-score js-rail-score">0</div>
+				</li>
+				<li class="row">
+					<div class="row-label">1 - 4 (3)</div>
+					<div class="counter">
+						<button class="js-rail-decrement" data-rail="3" tabindex="-1">&ndash;</button>
+						<input id="rail-3" type="number" min="0" class="js-rail-count" data-row="3" value="0" />
+						<button class="js-rail-increment" data-rail="3" tabindex="-1">+</button>
+					</div>
+					<button class="rail-bonus js-rail-bonus" data-bonus="0">+2</button>
+					<div class="row-score js-rail-score">0</div>
+				</li>
+				<li class="row">
+					<div class="row-label">2 - 3 (3)</div>
+					<div class="counter">
+						<button class="js-rail-decrement" data-rail="4" tabindex="-1">&ndash;</button>
+						<input id="rail-4" type="number" min="0" class="js-rail-count" data-row="4" value="0" />
+						<button class="js-rail-increment" data-rail="4" tabindex="-1">+</button>
+					</div>
+					<button class="rail-bonus js-rail-bonus" data-bonus="0">+2</button>
+					<div class="row-score js-rail-score">0</div>
+				</li>
+				<li class="row">
+					<div class="row-label">2 - 4 (4)</div>
+					<div class="counter">
+						<button class="js-rail-decrement" data-rail="5" tabindex="-1">&ndash;</button>
+						<input id="rail-5" type="number" min="0" class="js-rail-count" data-row="5" value="0" />
+						<button class="js-rail-increment" data-rail="5" tabindex="-1">+</button>
+					</div>
+					<button class="rail-bonus js-rail-bonus" data-bonus="0">+2</button>
+					<div class="row-score js-rail-score">0</div>
+				</li>
+				<li class="row">
+					<div class="row-label">3 - 4 (5)</div>
+					<div class="counter">
+						<button class="js-rail-decrement" data-rail="6" tabindex="-1">&ndash;</button>
+						<input id="rail-6" type="number" min="0" class="js-rail-count" data-row="6" value="0" />
+						<button class="js-rail-increment" data-rail="6" tabindex="-1">+</button>
+					</div>
+					<button class="rail-bonus js-rail-bonus" data-bonus="0">+2</button>
+					<div class="row-score js-rail-score">0</div>
+				</li>
+			</ol>
+			<div class="row end">
+				<div class="row-label">Mine (2/6/12/20)</div>
+				<div class="counter-text">
+					<div class="js-mine-count">0</div>
+					<button class="js-mine-decrement">&ndash;</button>
+					<button class="js-mine-increment">+</button>
+				</div>
+				<div class="row-score js-mine-score">0</div>
+			</div>
+			<div class="row end">
+				<div class="overrides">
+					<div class="row-label">Overrides</div>
+					<button class="override-1 js-override">Override 1</button>
+					<button class="override-2 js-override">Override 2</button>
+				</div>
+				<div class="total-score js-total-score">0</div>
+			</div>
+		</div>
+		<script>
+			const railScoreArray = [1,2,3,3,4,5];
+			const mineScoreArray = [0,2,6,12,20];
+			const elemTotalScore = document.querySelector('.js-total-score');
+			const elemOverrideControls = document.querySelectorAll('.js-override');
+			const elemMineCount = document.querySelector('.js-mine-count');
+			const elemMineScore = document.querySelector('.js-mine-score');
+			const elemMineIncrement = document.querySelector('.js-mine-increment');
+			const elemMineDecrement = document.querySelector('.js-mine-decrement');
+			const elemRailIncrements = document.querySelectorAll('.js-rail-increment');
+			const elemRailDecrements = document.querySelectorAll('.js-rail-decrement');
+			const elemRailBonuses = document.querySelectorAll('.js-rail-bonus');
+			const elemRailCounts = document.querySelectorAll('.js-rail-count');
+			const elemRailScores = document.querySelectorAll('.js-rail-score');
 
-  <body>
-    <div class="wrap">
-    <h1>30 Rails roll and write score calculator</h1>
-    <div class="rail-types">
-      <div><i></i></div>
-      <div><i></i></div>
-      <div><i></i></div>
-      <div><i></i></div>
-      <div><i></i></div>
-      <div><i></i></div>
-    </div>
+			// Update a rail count
+			function updateRailCount(index, direction) {
+				if (direction == 'decrement' && parseInt(elemRailCounts[index].value) > 0) {
+					elemRailCounts[index].value = parseInt(elemRailCounts[index].value) - 1
+				}
+				if (direction == 'increment') {
+					elemRailCounts[index].value = parseInt(elemRailCounts[index].value) + 1
+				}
+				if (parseInt(elemRailCounts[index].value) == 0) {
+					toggleLineBonus(index, 'off');
+				}
+				updateRailScore(index);
+			}
 
-    <ol class="rail-lines">
-      <li class="row">
-        <label for="rail-1" class="row-label">1 - 2 (1)</label>
-        <div class="counter">
-          <button class="js-rail-decrement" data-rail="1" tabindex="-1">&ndash;</button>
-          <input id="rail-1" type="number" min="0" class="js-rail-count" data-row="1" value="0" />
-          <button class="js-rail-increment" data-rail="1" tabindex="-1">+</button>
-        </div>
-        <button class="rail-bonus js-rail-bonus" data-bonus="0">+2</button>
-        <div class="row-score js-rail-score">0</div>
-      </li>
-      <li class="row">
-        <label class="row-label">1 - 3 (2)</label>
-        <div class="counter">
-          <button class="js-rail-decrement" data-rail="2" tabindex="-1">&ndash;</button>
-          <input id="rail-2" type="number" min="0" class="js-rail-count" data-row="2" value="0" />
-          <button class="js-rail-increment" data-rail="2" tabindex="-1">+</button>
-        </div>
-        <button class="rail-bonus js-rail-bonus" data-bonus="0">+2</button>
-        <div class="row-score js-rail-score">0</div>
-      </li>
-      <li class="row">
-        <div class="row-label">1 - 4 (3)</div>
-        <div class="counter">
-          <button class="js-rail-decrement" data-rail="3" tabindex="-1">&ndash;</button>
-          <input id="rail-3" type="number" min="0" class="js-rail-count" data-row="3" value="0" />
-          <button class="js-rail-increment" data-rail="3" tabindex="-1">+</button>
-        </div>
-        <button class="rail-bonus js-rail-bonus" data-bonus="0">+2</button>
-        <div class="row-score js-rail-score">0</div>
-      </li>
-      <li class="row">
-        <div class="row-label">2 - 3 (3)</div>
-        <div class="counter">
-          <button class="js-rail-decrement" data-rail="4" tabindex="-1">&ndash;</button>
-          <input id="rail-4" type="number" min="0" class="js-rail-count" data-row="4" value="0" />
-          <button class="js-rail-increment" data-rail="4" tabindex="-1">+</button>
-        </div>
-        <button class="rail-bonus js-rail-bonus" data-bonus="0">+2</button>
-        <div class="row-score js-rail-score">0</div>
-      </li>
-      <li class="row">
-        <div class="row-label">2 - 4 (4)</div>
-        <div class="counter">
-          <button class="js-rail-decrement" data-rail="5" tabindex="-1">&ndash;</button>
-          <input id="rail-5" type="number" min="0" class="js-rail-count" data-row="5" value="0" />
-          <button class="js-rail-increment" data-rail="5" tabindex="-1">+</button>
-        </div>
-        <button class="rail-bonus js-rail-bonus" data-bonus="0">+2</button>
-        <div class="row-score js-rail-score">0</div>
-      </li>
-      <li class="row">
-        <div class="row-label">3 - 4 (5)</div>
-        <div class="counter">
-          <button class="js-rail-decrement" data-rail="6" tabindex="-1">&ndash;</button>
-          <input id="rail-6" type="number" min="0" class="js-rail-count" data-row="6" value="0" />
-          <button class="js-rail-increment" data-rail="6" tabindex="-1">+</button>
-        </div>
-        <button class="rail-bonus js-rail-bonus" data-bonus="0">+2</button>
-        <div class="row-score js-rail-score">0</div>
-      </li>
-    </ol>
-    <div class="row end">
-      <div class="row-label">Mine (2/6/12/20)</div>
-      <div class="counter-text">
-        <div class="js-mine-count">0</div>
-        <button class="js-mine-decrement">&ndash;</button>
-        <button class="js-mine-increment">+</button>
-      </div>
-      <div class="row-score js-mine-score">0</div>
-    </div>
-    <div class="row end">
-      <div class="overrides">
-     	<div class="row-label">Overrides</div>
-        <button class="override-1 js-override">Override 1</button>
-        <button class="override-2 js-override">Override 2</button>
-      </div>
-      <div class="total-score js-total-score">0</div>
-    </div>
-    </div>
+			// Update a rail score
+			function updateRailScore(index) {
+				var bonus = 0;
+				var count = parseInt(elemRailCounts[index].value);
+				if (count == 0) {
+					elemRailScores[index].innerHTML = 0;
+				} else {
+					elemRailScores[index].innerHTML = railScoreArray[index] + parseInt(elemRailBonuses[index].dataset.bonus) + count;
+				}
+				updateTotalScore();
+			}
 
-    <script>
-const railScoreArray = [1,2,3,3,4,5];
-const mineScoreArray = [0,2,6,12,20];
+			// Update a rail line bonus
+			function toggleLineBonus(index, status) {
+				if (status == 'on') {
+					elemRailBonuses[index].dataset.bonus = 2;
+					elemRailBonuses[index].classList.add("on");
+				} else {
+					elemRailBonuses[index].dataset.bonus = 0;
+					elemRailBonuses[index].classList.remove("on");
+				}
+			}
 
-const elemTotalScore = document.querySelector('.js-total-score');
+			// Increment rail count
+			elemRailIncrements.forEach((elemRailIncrement, index) => {
+				elemRailIncrement.addEventListener('click', function(e) {
+					updateRailCount(index, 'increment');
+				});
+			});
 
-const elemOverrideControls = document.querySelectorAll('.js-override');
+			// Decrement rail count
+			elemRailDecrements.forEach((elemRailDecrement, index) => {
+				elemRailDecrement.addEventListener('click', function(e) {
+					updateRailCount(index, 'decrement');
+				});
+			});
 
-const elemMineCount = document.querySelector('.js-mine-count');
-const elemMineScore = document.querySelector('.js-mine-score');
-const elemMineIncrement = document.querySelector('.js-mine-increment');
-const elemMineDecrement = document.querySelector('.js-mine-decrement');
+			// Toggle rail bonus
+			elemRailBonuses.forEach((elemRailBonus, index) => {
+				elemRailBonus.addEventListener('click', function(e) {
+					if (e.target.dataset.bonus == 0 && parseInt(elemRailCounts[index].value) > 0) {
+						toggleLineBonus(index, 'on');
+					} else {
+						toggleLineBonus(index, 'off');
+					}
+					updateRailScore(index);
+				});
+			});
 
-const elemRailIncrements = document.querySelectorAll('.js-rail-increment');
-const elemRailDecrements = document.querySelectorAll('.js-rail-decrement');
-const elemRailBonuses = document.querySelectorAll('.js-rail-bonus');
-const elemRailCounts = document.querySelectorAll('.js-rail-count');
-const elemRailScores = document.querySelectorAll('.js-rail-score');
+			// Toggle dice overrides
+			elemOverrideControls.forEach((elemOverrideControl) => {
+				elemOverrideControl.addEventListener('click', function(e) {
+					e.target.classList.toggle("on");
+				});
+			});
 
-// Update a rail count
-function updateRailCount(index, direction) {
-  if (direction == 'decrement' && parseInt(elemRailCounts[index].value) > 0) {
-    elemRailCounts[index].value = parseInt(elemRailCounts[index].value) - 1
-  }
-  if (direction == 'increment') {
-    elemRailCounts[index].value = parseInt(elemRailCounts[index].value) + 1
-  }
-  if (parseInt(elemRailCounts[index].value) == 0) {
-    toggleLineBonus(index, 'off');
-  }
-  updateRailScore(index);
-}
+			elemRailCounts.forEach((railCount, index) => {
+				// Listen for changes to rail counts
+				railCount.addEventListener('change', (e) => {
+					if (!railCount.value) {
+						railCount.value = 0;
+					}
+					updateRailScore(index);
+				});
 
-// Update a rail score
-function updateRailScore(index) {
-  var bonus = 0;
-  var count = parseInt(elemRailCounts[index].value);
-  if (count == 0) {
-    elemRailScores[index].innerHTML = 0;
-  } else {
-    elemRailScores[index].innerHTML = railScoreArray[index] + parseInt(elemRailBonuses[index].dataset.bonus) + count;
-  }
-  updateTotalScore();
-}
+        // On focus of individual score, highlight all text
+				railCount.addEventListener('focus', (e) => {
+					railCount.select();
+					e.preventDefault();
+					e.stopPropagation();
+					return false;
+				});
 
-// Update a rail line bonus
-function toggleLineBonus(index, status) {
-  if (status == 'on') {
-    elemRailBonuses[index].dataset.bonus = 2;
-    elemRailBonuses[index].classList.add("on");
-  } else {
-    elemRailBonuses[index].dataset.bonus = 0;
-    elemRailBonuses[index].classList.remove("on");
-  }
-}
+        // On focus of individual score, suppress context menu
+				railCount.addEventListener('contextmenu', (e) => {
+					e.preventDefault();
+				});
+			});
 
-// Increment rail count
-elemRailIncrements.forEach((elemRailIncrement, index) => {
-  elemRailIncrement.addEventListener('click', function(e) {
-	updateRailCount(index, 'increment');
-  });
-});
+			// Update the mine count and score
+			function updateMineScore(direction) {
+				if (direction == 'decrement' && parseInt(elemMineCount.innerHTML) > 0) {
+					elemMineCount.innerHTML = parseInt(elemMineCount.innerHTML) - 1
+				}
+				if (direction == 'increment' && parseInt(elemMineCount.innerHTML) < 4) {
+					elemMineCount.innerHTML = parseInt(elemMineCount.innerHTML) + 1
+				}
+				elemMineScore.innerHTML = mineScoreArray[parseInt(elemMineCount.innerHTML)];
+			}
 
-// Decrement rail count
-elemRailDecrements.forEach((elemRailDecrement, index) => {
-  elemRailDecrement.addEventListener('click', function(e) {
-	updateRailCount(index, 'decrement');
-  });
-});
+			// Increment mine count
+			elemMineIncrement.addEventListener('click', function(e) {
+				updateMineScore('increment');
+				updateTotalScore();
+				e.preventDefault();
+			});
 
-// Toggle rail bonus
-elemRailBonuses.forEach((elemRailBonus, index) => {
-  elemRailBonus.addEventListener('click', function(e) {
-	if (e.target.dataset.bonus == 0 && parseInt(elemRailCounts[index].value) > 0) {
-      toggleLineBonus(index, 'on');
-    } else {
-      toggleLineBonus(index, 'off');
-    }
-  updateRailScore(index);
-  });
-});
+			// Decrement mine count
+			elemMineDecrement.addEventListener('click', function(e) {
+				updateMineScore('decrement');
+				updateTotalScore();
+				e.preventDefault();
+			});
 
-// Toggle dice overrides
-elemOverrideControls.forEach((elemOverrideControl) => {
-  elemOverrideControl.addEventListener('click', function(e) {
-    e.target.classList.toggle("on");
-  });
-});
+			// Update the total score with all subtotals (lines and mines)
+			function updateTotalScore() {
+				var score = 0;
+				elemRailScores.forEach((elemRailScore) => {
+					score += parseInt(elemRailScore.innerHTML);
+				});
+				score += parseInt(elemMineScore.innerHTML);
+				elemTotalScore.innerHTML = score;
+			}
 
-elemRailCounts.forEach((railCount, index) => {
-  railCount.addEventListener('change', (e) => {
-    if (!railCount.value) {
-      railCount.value = 0;
-    }
-    updateRailScore(index);
-  });
-  railCount.addEventListener('focus', (e) => {
-	railCount.select();
-    e.preventDefault();
-    e.stopPropagation();
-    return false;
-  });
-  railCount.addEventListener('contextmenu', (e) => {
-    e.preventDefault();
-  });
-});
-
-// Update the mine count and score
-function updateMineScore(direction) {
-  if (direction == 'decrement' && parseInt(elemMineCount.innerHTML) > 0) {
-    elemMineCount.innerHTML = parseInt(elemMineCount.innerHTML) - 1
-  }
-  if (direction == 'increment' && parseInt(elemMineCount.innerHTML) < 4) {
-    elemMineCount.innerHTML = parseInt(elemMineCount.innerHTML) + 1
-  }
-  elemMineScore.innerHTML = mineScoreArray[parseInt(elemMineCount.innerHTML)];
-}
-
-// Increment mine count
-elemMineIncrement.addEventListener('click', function(e) {
-  updateMineScore('increment');
-  updateTotalScore();
-  e.preventDefault();
-});
-
-// Decrement mine count
-elemMineDecrement.addEventListener('click', function(e) {
-  updateMineScore('decrement');
-  updateTotalScore();
-  e.preventDefault();
-});
-
-// Update the total score with all subtotals (lines and mines)
-function updateTotalScore() {
-  var score = 0;
-  elemRailScores.forEach((elemRailScore) => {
-    score += parseInt(elemRailScore.innerHTML);
-  });
-  score += parseInt(elemMineScore.innerHTML);
-  elemTotalScore.innerHTML = score;
-}
-
-// Reset all scores
-elemTotalScore.addEventListener('click', function(e) {
-  var result = window.confirm('Reset your score?');
-  if (result == true) {
-    location.reload();
-  } else {
-    updateTotalScore();
-  }
-});
-    </script>
-  </body>
+			// Reset all scores
+			elemTotalScore.addEventListener('click', function(e) {
+				var result = window.confirm('Reset your score?');
+				if (result == true) {
+					location.reload();
+				} else {
+					updateTotalScore();
+				}
+			});
+		</script>
+	</body>
 </html>
